@@ -100,6 +100,26 @@ p
 
 
 ```{r}
+## We can compare the apache score to the score where there is a 99% chance that the patient will pass away within 48 hours 
+##  For example, here I set the comparison value to 28
+comparison <- 40
+
+### Plot a single bar representing the apache score:
+
+df_apache <- data.frame(Apache = c("apache"), Value = c(55))
+
+p2 <- ggplot(data = df_apache, aes(y = Value, x = Apache)) + 
+  geom_hline(yintercept = comparison, linetype = 2, color = "red") +
+  geom_bar(stat = "identity", width = .2, alpha = .9) + 
+  scale_y_continuous(limits = c(0, 75), expand = c(0, 5)) +
+  theme(panel.background = element_blank(), 
+        axis.line.x = element_line(colour = "grey40", size = .2), 
+        axis.line.y = element_line(colour = "grey40", size = .2),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) 
+
+
+p2
 
 ```
 
