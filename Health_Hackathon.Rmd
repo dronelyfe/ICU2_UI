@@ -1,0 +1,110 @@
+---
+title: "ICU_hackathon"
+author: "Jeremy Lewis"
+date: "10/4/2019"
+output: html_document
+---
+
+
+
+```{r}
+install.packages("ggplot2")
+install.packages("shiny")
+install.packages("shinydashboard")
+
+library(ggplot2)
+library(shiny)
+library(shiny)
+library(tidyverse)
+```
+
+
+
+
+```{r}
+
+```
+
+
+```{r}
+### Pretend that dipl is our model weights
+
+#range(mpg$displ)
+
+# Make dummy variables that are equal to disp (our pretend weights) times out pretend model variables:
+## w_<variable> denotes the weighted data of our <variable> 
+
+mpg$w_cyl <- mpg$displ*mpg$cyl
+mpg$w_hwy <- mpg$displ*mpg$hwy
+mpg$w_cyl <- mpg$displ*mpg$cyl
+mpg$w_cyl <- mpg$displ*mpg$cyl
+mpg$w_cyl <- mpg$displ*mpg$cyl
+mpg$w_cyl <- mpg$displ*mpg$cyl
+mpg$w_cyl <- mpg$displ*mpg$cyl
+mpg$w_cyl <- mpg$displ*mpg$cyl
+mpg$w_cyl <- mpg$displ*mpg$cyl
+
+
+```
+
+### Fake data:
+
+```{r}
+  #fake_weights <-  runif(5, -2, 7.5)
+
+  weight <- c("unweighted", "weighted")
+ 
+  v1 <-  runif(1, 10, 20)
+  v1 <- c(v1, v1*1.8)  
+  
+  v2 <-  runif(1, 20, 30)
+  v2 <- c(v2, v2*1.2)
+  
+  v3 <-  runif(1, 50, 60)
+  v3 <- c(v3, v3*(-1))
+  
+  v4 <-  runif(1, 17, 19)
+  v4 <- c(v4, v4*1.7)
+  
+  v5 <-  runif(1, 50, 70)
+  v5 <- c(v5, v5*1.6)
+```
+  
+```{r}
+df <- data.frame(v1, v2, v3, v4, v5, weight)
+
+
+df <- gather(df, variable, value, 1:5)
+
+head(df)
+```
+
+
+
+
+```{r}
+p <- ggplot(data = df, aes(fill = weight, x= variable , y= value)) +
+  geom_bar(position = "dodge", stat="identity", alpha = 1, width = .75) +
+  ggtitle("Mock Plot") +
+ # scale_y_continuous(limits = c(0, 72), breaks = seq(0, 70, 10)) +
+  labs(x = "Variable", y = "Value") +
+  theme(panel.background = element_blank(), 
+        axis.line.x = element_line(colour = "grey40", size = .2), 
+        axis.line.y = element_line(colour = "grey40", size = .2)) 
+ # scale_fill_manual(name = "Achievement Level", values = c("orchid2", "plum1", "skyblue1", "royalblue1" ))
+
+p
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
