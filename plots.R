@@ -5,8 +5,8 @@ flowers <- iris
 ## then, we can be ready to just slot our production plots right in.
 carplot <- ggplot(
     data = cars, 
-    aes(x = model, y = displ)) + 
-    geom_point() +
+    aes(x = model)) + 
+    geom_bar() +
     theme(
         axis.text.x = element_blank()
     )
