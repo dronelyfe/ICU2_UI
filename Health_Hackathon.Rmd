@@ -8,9 +8,9 @@ output: html_document
 
 
 ```{r}
-install.packages("ggplot2")
-install.packages("shiny")
-install.packages("shinydashboard")
+#install.packages("ggplot2")
+#install.packages("shiny")
+#install.packages("shinydashboard")
 
 library(ggplot2)
 library(shiny)
@@ -100,7 +100,7 @@ p
 
 
 ```{r}
-## We can compare the apache score to the score where there is a 99% chance that the patient will pass away within 48 hours 
+## We can compare the apache score to some comparitor like the mean appache score
 ##  For example, here I set the comparison value to 28
 comparison <- 40
 
@@ -111,7 +111,7 @@ df_apache <- data.frame(Apache = c("apache"), Value = c(55))
 p2 <- ggplot(data = df_apache, aes(y = Value, x = Apache)) + 
   geom_hline(yintercept = comparison, linetype = 2, color = "red") +
   geom_bar(stat = "identity", width = .2, alpha = .9) + 
-  scale_y_continuous(limits = c(0, 75), expand = c(0, 5)) +
+  scale_y_continuous(limits = c(0, 75), expand = c(0, 0)) +
   theme(panel.background = element_blank(), 
         axis.line.x = element_line(colour = "grey40", size = .2), 
         axis.line.y = element_line(colour = "grey40", size = .2),
@@ -126,5 +126,80 @@ p2
 
 
 ```{r}
+# Fake weighted values (weight times value), representing the contribution of variables to the apache score
+## note: this will only apply to numeric variables, and categorical vars will need to be displayed differently
+
+df2 <- data.frame("v1" = 22, "v2" = 23, "v4" = 8, "v5" = 12, "v6" = 13, "v7" = 6, "v8" = 14, "v9" = 4, 'v10' = 2, "v11" = 18, "v13"= 7, "v14" = 3, "v15" = 1, "v16" = 13, "v17" = 8, "v19" = 2, "v20" = 9, "v21" = 2, "v22"= 6, "v23" = 8, "v24" = 10, "v25" = 13)
+
+df2 <- gather(df2, "Variable", "Weighted_Value")
+
+# Normalize so that the weighted vairables add to less than 1 (a "possible"" probability)
+df2$Weighted_Value <- (df2$Weighted_Value)/sum(df2$Weighted_Value) -.002
+
+# Add a dummy variable to use as an x location for the bar. This variable has no real meaning, but is needed because geom_bar excpects multiple bars, but we are plotting only one
+df2$dummy <- "dummy"
+
+head(df2)
 
 ```
+
+
+```{r}
+#install.packages("RColorBrewer").
+library(RColorBrewer)
+
+p_stacked <- ggplot(data = df2, aes(x= dummy, y = Weighted_Value, fill = Variable)) + 
+  geom_bar(position = "stack", stat = 'identity', width = .3) + 
+  theme(panel.background = element_blank(), 
+        axis.line.x = element_blank(), 
+        axis.line.y = element_line(colour = "grey40", size = .2),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "right") +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(y = "Contribution to Predicted 48h Mortality") + 
+  scale_fill_manual(values= c("#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E", "#E6AB02", "#A6761D", "#666666", "cadetblue3", "darkslateblue", 'deeppink2', "chocolate3", "chartreuse4", "lightgoldenrod3", "pink2", "tomato3", "darkorchid3", "blue4", "coral4", "slategrey", "aquamarine2", "yellow3", "firebrick3", "lightgreen", "goldenrod4", "olivedrab1"))  
+
+#legend.key.size = unit(.2, "cm")
+#guide_legend(ncol = 1)
+
+
+p_stacked
+  
+
+```
+
+
+```{r}
+brewer.pal(n = 8, name = "Dark2")
+
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+
+
