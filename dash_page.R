@@ -17,75 +17,22 @@ header <- dashboardHeader(
 )
 
 sidebar <- dashboardSidebar(
-    menuItem(
-        "Primary Metrics",
-        tabName = "primary"
-    ),
-    menuItem(
-        "Secondary Metrics",
-        tabName = "secondary"
+    collapsed = TRUE,
+    sidebarMenu(
+        ## sidebar controls go here
     )
 )
-
 ## infoBoxes??? for displaying crucial metrics maybe???
 body <- dashboardBody(
-    tabItem(
-        tabName = "primary",
-        fluidRow(
-            box(
-                title = "",
-                width = 2
-            ),
-            box(
-                title = "",
-                width = 2
-            ),
-            box(
-                title = "",
-                width = 2
-            ),
-            box(
-                title = "",
-                width = 2
-            ),
-            box(
-                title = "",
-                width = 2
-            ),
-            box(
-                title = "",
-                width = 2
-            )
-        )
-    ),
-
-    tabItem(
-        tabName = "secondary",
-        fluidRow(
-            box(
-                title = "",
-                width = 2
-            ),
-            box(
-                title = "",
-                width = 2
-            ),
-            box(
-                title = "",
-                width = 2
-            ),
-            box(
-                title = "",
-                width = 2
-            ),
-            box(
-                title = "",
-                width = 2
-            ),
-            box(
-                title = "",
-                width = 2
-            ) ## fill rows with boxes, nest plotOutput inside the box!
+    fluidRow(
+        box(
+            simpleNetworkOutput("apache_score") %>% withSpinner(),
+            title = "",
+            width = 6
+        ),
+        box(
+            title = "",
+            width = 6
         )
     )
 )

@@ -1,14 +1,6 @@
 server <- function(input, output){
     
-    output$mock_weights <- renderPlotly({
-
-    })
-
-    output$mock_muse_score <- renderPlotly({
-
-    })
-
-    output$mock_prediction <- renderPlotly({
-
+    output$apache_score <- renderSimpleNetwork({
+        apache_vis_net
     })
 }

@@ -1,29 +1,27 @@
-cars <- mpg
-flowers <- iris
+source('./data.R')
 
-## ex. mockup for now; We just want to try out some geometries and such
-## then, we can be ready to just slot our production plots right in.
-carplot <- ggplot(
-    data = cars, 
-    aes(x = model)) + 
-    geom_bar() +
-    theme(
-        axis.text.x = element_blank()
-    )
+apache_net_target <- c(
+    "pao2", "temperature", 
+    "meanbp", "ph", "heartrate",
+    "respiratoryrate", "sodium",
+    "hematocrit", "wbc", "gcs",
+    "eye", "motor", "verbal"
+)
 
-## plots for primary tab, 'plot' to be replaced with metric or variable name when ready
-## fill out with aesthetic mappings and geometries
-primary_plot_1 <- ggplot() 
-primary_plot_2 <- ggplot()
-primary_plot_3 <- ggplot()
-primary_plot_4 <- ggplot()
-primary_plot_5 <- ggplot()
-primary_plot_6 <- ggplot()
+apache_net_src <- c(
+    replicate(
+        10, 
+        "apachescore"
+    ), "gcs", "gcs", "gcs"
+)
 
-## plots for secondary tab, 'plot' to be replaced with metric or variable name when ready
-secondary_plot_1 <- ggplot()
-secondary_plot_2 <- ggplot()
-secondary_plot_3 <- ggplot()
-secondary_plot_4 <- ggplot()
-secondary_plot_5 <- ggplot()
-secondary_plot_6 <- ggplot()
+apache_net <- data.frame(apache_net_src, apache_net_target)
+
+apache_vis_net <- simpleNetwork(
+    Data = apache_net,
+    height = NULL,
+    width = NULL, 
+    linkDistance = 150
+)
+ 
+apache_vis_net$x$links$colour <- c(replicate(13, "#300"))
