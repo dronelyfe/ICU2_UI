@@ -170,9 +170,38 @@ p_stacked
 
 ```
 
-
 ```{r}
-brewer.pal(n = 8, name = "Dark2")
+## feature and importance score (futher from 0 means more important)
+### Scores for patietn: 002-34851
+
+df_import <- data.frame("age" = c(0.3), "ethnicity" = c(0.0), 'apacheadmissiondx' = c(-0.4), 'admissionheight' = c(-0.1), 'admissionweight' = c(-0.1), 'unitadmitsource' = c(-0.0), 'intubated' = c(-0.0), 'vent' = c(-0.1), 'dialysis' = c(-0.0), 'eyes' = c(-0.1), 'motor' = c(-0.1), 'meds'= c(0.0), 'urine' = c(0.2), 'wbc'= c(0.1), 'temperature' = c(0.1), 'respiratoryrate' = 0.1, 'sodium' = -0.1, 'heartrate' = 0.6, 'meanbp'= -0.1, 'ph'= 0.0, 'hematocrit' =  -0.0, 'albumin'= -0.3, 'pao2'= -0.0, 'pco2'= 0.0, 'bun'= 0.1, 'glucose'= -0.1, 'bilirubin' = 1.0, 'fio2'=-0.1)
+
+df_import <- gather(df_import, "Variable", "Importance_Score")
+
+df_import$dummy <- "dummy"
+
+
+p_stacked2 <- ggplot(data = subset(df_import, df_import$Importance_Score >0), aes(x= dummy, y = Importance_Score, fill = Variable)) + 
+  geom_bar(position = "stack", stat = 'identity', width = .3) + 
+  theme(panel.background = element_blank(), 
+        axis.line.x = element_blank(), 
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.title.x = element_blank(),
+        axis.line.y = element_blank(), 
+        axis.ticks.y=element_blank(),
+        legend.position = "right") +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(y = "Importance Score for 48 Hour Mortality") + 
+  scale_fill_manual(values= c("#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E", "#E6AB02", "#A6761D", "#666666", "cadetblue3", "darkslateblue", 'deeppink2', "chocolate3", "chartreuse4", "lightgoldenrod3", "pink2", "tomato3", "darkorchid3", "blue4", "coral4", "slategrey", "aquamarine2", "yellow3", "firebrick3", "lightgreen", "goldenrod4", "olivedrab1", "red", "blue", "green"))  
+
+
+pdf("Importance_Scores.pdf")
+p_stacked2
+dev.off()
+
+
 
 ```
 
@@ -184,15 +213,17 @@ df_ICU <- read_csv("~/Desktop/health_analytics/Health_Hackathon/ICU2_UI-master/I
 
 ### Density plot for a given vairable, with our patients value marked with a vertical line:
 ```{r}
+
+#df_ICU[,c(30:51)]df_ICU[,c(30:51)==-1]=NA
 #head(mpg)
 
 ### Density plot for a given vairable, with our patients value marked with a vertical line:
 
 # Identify the person 
-persone = 141168
+person = 141168
 
 # Name variable to visualize
-variable <- "wbc"
+variable <- "glucose"
 
 # Name dataframe to input
 df3 <- df_ICU
@@ -203,7 +234,7 @@ p <- df_ICU[df_ICU$patientunitstayid==person,variable][[1]]
 p
 
 
-ggplot(df3, aes(x= df3[[variable]])) + 
+p_density <- ggplot(df3, aes(x= df3[[variable]])) + 
   geom_density(alpha=0.25, fill = "blue", alpha = .5) + 
   geom_vline(xintercept = mean(df3[[variable]]), linetype = 2, color = "black") + # vertical line for mean of feature 
    geom_vline(xintercept = p , linetype = 2, color = "red") + # vertical line showing our patient's score on this feature 
@@ -211,6 +242,10 @@ xlab(variable) +
   ggtitle(paste("Density Plot of ", variable, sep = "")) 
 
 #+scale_color_manual(name = "Lines", values = c(mean = "black", patient = "red"))
+
+pdf("Density_For_ParticularPatient_ParticularVaraible_Glucose.pdf")
+p_density
+dev.off()
   
 
 ```
