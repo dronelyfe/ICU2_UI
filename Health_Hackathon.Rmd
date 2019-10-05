@@ -178,28 +178,42 @@ brewer.pal(n = 8, name = "Dark2")
 
 
 ```{r}
+library(readr)
+df_ICU <- read_csv("~/Desktop/health_analytics/Health_Hackathon/ICU2_UI-master/ICU_dataset.csv")
 ```
 
-
+### Density plot for a given vairable, with our patients value marked with a vertical line:
 ```{r}
+#head(mpg)
+
+### Density plot for a given vairable, with our patients value marked with a vertical line:
+
+# Identify the person 
+persone = 141168
+
+# Name variable to visualize
+variable <- "wbc"
+
+# Name dataframe to input
+df3 <- df_ICU
+
+
+# Variable holding our patients particular score on that variable. Here, suppose we are visualizing the results for person ... :
+p <- df_ICU[df_ICU$patientunitstayid==person,variable][[1]]
+p
+
+
+ggplot(df3, aes(x= df3[[variable]])) + 
+  geom_density(alpha=0.25, fill = "blue", alpha = .5) + 
+  geom_vline(xintercept = mean(df3[[variable]]), linetype = 2, color = "black") + # vertical line for mean of feature 
+   geom_vline(xintercept = p , linetype = 2, color = "red") + # vertical line showing our patient's score on this feature 
+xlab(variable) +
+  ggtitle(paste("Density Plot of ", variable, sep = "")) 
+
+#+scale_color_manual(name = "Lines", values = c(mean = "black", patient = "red"))
+  
+
 ```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
 
 
 
